@@ -14,14 +14,26 @@
 from queens import QueensState
 from collections import namedtuple as nmd
 from queens import DuplicateQueenError
+from queens import MissingQueenError
+import unittest
+
+Position = nmd(typename='position', field_names=['ro', 'col'])
+Position.__doc__ = 'A position on the chessboard, representing the zero-based row and column numbers.'
+Position.ro.__doc__ = 'A zero-based row #'
+Position.col.__doc__ = 'A zero-based col #'
+
+
+from queens import QueensState
+from collections import namedtuple as nmd
+from queens import DuplicateQueenError
 from queens import  MissingQueenError
 import unittest
 
 
-Position = nmd(typename =  'position', field_names = ['ro', 'col'])
+Position = nmd(typename =  'position', field_names = ['row', 'column'])
 Position.__doc__ = 'A position on the chessboard, representing the zero-based row and column numbers.'
-Position.ro.__doc__ = 'A zero-based row #'
-Position.col.__doc__ = 'A zero-based col #'
+Position.row.__doc__ = 'A zero-based row #'
+Position.column.__doc__ = 'A zero-based col #'
 
 
 class TestQueensState(unittest.TestCase):
@@ -78,3 +90,4 @@ class TestQueensState(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

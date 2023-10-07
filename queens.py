@@ -39,12 +39,8 @@ class DuplicateQueenError(Exception):
     def __init__(self, position: Position):
         """Initializes the exception, given a position where the duplicate queen exists."""
         self._position = position
-
-
     def __str__(self) -> str:
         return f'duplicate queen in row {self._position.row} column {self._position.column}'
-
-
 
 class MissingQueenError(Exception):
     """An exception indicating an attempt to remove a queen where one is not present."""
@@ -53,16 +49,12 @@ class MissingQueenError(Exception):
         """Initializes the exception, given a position where a queen is missing."""
         self._position = position
 
-
     def __str__(self) -> str:
         return f'missing queen in row {self._position.row} column {self._position.column}'
-
-
 
 class QueensState:
     """Immutably represents the state of a chessboard being used to assist in
     solving the n-queens problem."""
-
 
 
     def __init__(self, rows: int, columns: int):
@@ -93,29 +85,34 @@ class QueensState:
         for i in range(len(queens)):
             for j in range(i + 1, len(queens)):
                 py1, py2 = queens[i], queens[j]
-                if py1.row == py2.row or py1.column == py2.column or abs(
-                        py1.row - py2.row) == abs(py1.column - py2.column):
+                if py1.row == py2.row or py1.column == py2.column or abs(py1.row - py2.row) == abs(
+                        py1.column - py2.column):
                     return True
-        return False
+            return False
 
     def with_queens_added(self, positions: list[Position]) -> 'QueensState':
         """Builds a new QueensState with queens added in the given positions.
-        Raises a DuplicateQueenError when there is already a queen in at
+        Raises a DuplicateQueenError whenan there is already a queen in at
         least one of the given positions."""
-        new_board = [row[:] for row in self._board]
-        for pos in positions:
-            if self.has_queen(pos):
-                raise DuplicateQueenError(pos)
-            new_board[pos.row][pos.column] = 1
-        return QueensState(self._rows, self._columns)._replace(_board = new_board)
+        for position in positions:
+            if self.has_queen(position):
+                raise DuplicateQueenError(position)
+            row = position.row
+            column = position.column
+            self._board[row][column] = 1
+
+        return self
 
     def with_queens_removed(self, positions: list[Position]) -> 'QueensState':
         """Builds a new QueensState with queens removed from the given positions.
         Raises a MissingQueenError when there is no queen in at least one of
         the given positions."""
-        new_board = [row[:] for row in self._board]
-        for pos in positions:
-            if not self.has_queen(pos):
-                raise MissingQueenError(pos)
-            new_board[pos.row][pos.column] = 0
-        return QueensState(self._rows, self._columns)._replace(_board = new_board)
+        for position in positions:
+            if not self.has_queen(position):
+                raise MissingQueenError(position)
+            row = position.row
+            column = position.column
+            self._board[row][column] = 0
+
+        return self
+
