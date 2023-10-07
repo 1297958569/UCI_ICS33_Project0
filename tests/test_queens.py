@@ -18,6 +18,11 @@ from queens import  MissingQueenError
 import unittest
 
 
+Position = nmd(typename =  'position', field_names = ['ro', 'col'])
+Position.__doc__ = 'A position on the chessboard, representing the zero-based row and column numbers.'
+Position.ro.__doc__ = 'A zero-based row #'
+Position.col.__doc__ = 'A zero-based col #'
+
 
 class TestQueensState(unittest.TestCase):
     def test_queen_count_is_zero_initially(self):
