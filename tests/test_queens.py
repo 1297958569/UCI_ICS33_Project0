@@ -29,6 +29,51 @@ class TestQueensState(unittest.TestCase):
         state = QueensState(8, 8)
         self.assertEqual(state.queen_count(), 0)
 
+    def test_queen_is_empty_originally(self):
+        state = QueensState(8,8)
+        self.assertEqual(state.queens(), second = [])
+
+    def test_queen_false_originally(self):
+        state = QueensState(8,8)
+        self.assertEqual(state.has_queen(Position(2,3)),second = False)
+
+    def test_with_queens_amend(self):
+        state = QueensState(8,8)
+        state = state.with_queens_added([Position(0, 3), Position(3,5), Position(7,6)])
+
+    def test_with_queens_added_duplicate(self):
+        state = QueensState(8, 8)
+        state = state.with_queens_added([Position(0,3), Position(3,5), Position(7,6)])
+        self.assertRaises(DuplicateQueenError, state.with_queens_added, [Position(7,6)])
+
+    def test_with_queens_removed(self):
+        state = QueensState(8, 8)
+        state = state.with_queens_added([Position(0,3), Position(3,5), Position(7,6), Position(7,7)])
+        state = state.with_queens_removed([Position(3,5), Position(7,6)])
+        self.assertEqual(state.queen_count(), 2)
+        self.assertEqual(state.queens(), [Position(0,3), Position(7,7)])
+        self.assertEqual(state.has_queen(Position(7,6)), False)
+        self.assertEqual(state.has_queen(Position(7,7)), True)
+
+    def test_with_queens_removed_missing(self):
+        state = QueensState(8, 8)
+        self.assertRaises(MissingQueenError, state.with_queens_removed, [Position(7,6), Position(7,7)])
+
+    def test_any_queens_unsafe_true(self):
+        state = QueensState(8, 8)
+        state = state.with_queens_added([Position(0,3), Position(3,5), Position(7,6), Position(7,7)])
+        self.assertEqual(state.any_queens_unsafe(), True)
+
+    def test_any_queens_unsafe_false_1(self):
+        state = QueensState(8, 8)
+        state = state.with_queens_added([Position(0,0), Position(1,2)])
+        self.assertEqual(state.any_queens_unsafe(), False)
+
+    def test_any_queens_unsafe_false_2(self):
+        state = QueensState(8, 8)
+        state = state.with_queens_added([Position(0,0), Position(1,2), Position(2,4)])
+        self.assertEqual(state.any_queens_unsafe(), False)
+
 
 
 if __name__ == '__main__':
