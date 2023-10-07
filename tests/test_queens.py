@@ -12,6 +12,9 @@
 # but instead focuses on just one aspect of how it behaves.  You'll want to do likewise.
 
 from queens import QueensState
+from collections import namedtuple as nmd
+from queens import DuplicateQueenError
+from queens import  MissingQueenError
 import unittest
 
 
